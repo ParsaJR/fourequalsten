@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .main-linear-bg-mobile {
+    background: linear-gradient(
+      to bottom,
+      rgb(4, 24, 46) 0%,
+      rgba(60, 135, 175, 0.94) 40%
+    );
+  }
+
+  .main-linear-bg-desktop {
+    background: linear-gradient(
+      to bottom,
+      rgb(4, 24, 46) 0%,
+      rgba(60, 135, 175, 0.94) 100%
+    );
+  }
+}
