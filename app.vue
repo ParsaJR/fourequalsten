@@ -1,3 +1,31 @@
+<script setup>
+import { VueDraggable } from 'vue-draggable-plus'
+const Expression = ref([
+  { id: '1', value: '1' },
+  { id: '2', value: '2' },
+  { id: '3', value: '3' },
+  { id: '4', value: '4' }
+]);
+const Mathsign = ref([
+  {
+    id: '1-2', value: '+'
+  },
+  {
+    id: '2-2', value: '-'
+  },
+  {
+    id: '3-2', value: '×'
+  },
+  {
+    id: '4-2', value: '÷'
+  },
+]);
+
+function sadasdsa(){
+  return false
+}
+
+</script>
 <template>
   <div>
     <NuxtRouteAnnouncer />
@@ -12,26 +40,28 @@
         </div>
       </section>
       <section class="h-3/6">
-          <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-            <div class="flex items-center justify-center gap-10 font-medium sm:font-normal text-4xl sm:text-5xl">
-              <span>1</span><span>2</span><span>3</span><span>4</span>
-            </div>
-            <div class="mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
-              <span>+</span><span>-</span><span>×</span><span>÷</span>
-            </div>
-          </div>
+        <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
+          <VueDraggable :animation="150" group="Draggables" v-model="Expression" @remove="sadasdsa"
+            class="flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
+            <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
+          </VueDraggable>
+          <VueDraggable :animation="150" :group="{name: 'Draggables', pull: 'clone' , put: false}" v-model="Mathsign"
+            class="mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
+            <span v-for="sign in Mathsign">{{ sign.value }}</span>
+          </VueDraggable>
+        </div>
       </section>
     </div>
   </div>
 </template>
 <style>
 body {
-  font-family:  Roboto, sans-serif;
+  font-family: Roboto, sans-serif;
 }
+
 .main-linear-bg-desktop {
   background: linear-gradient(to bottom,
       rgb(4, 24, 46) 0%,
       rgba(60, 135, 175, 0.94) 100%);
 }
-
 </style>
