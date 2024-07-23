@@ -1,12 +1,13 @@
-<script setup>
-import { VueDraggable } from 'vue-draggable-plus'
-const Expression = ref([
+<script setup lang="ts">
+import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
+
+const ExpressionArray = [
   { id: '1', value: '1' },
   { id: '2', value: '2' },
   { id: '3', value: '3' },
   { id: '4', value: '4' }
-]);
-const Mathsign = ref([
+];
+const MathSignsArray = [
   {
     id: '1-2', value: '+'
   },
@@ -19,11 +20,14 @@ const Mathsign = ref([
   {
     id: '4-2', value: '÷'
   },
-]);
+];
 
-function sadasdsa(){
-  return false
-}
+const [parentexp, Expression] = useDragAndDrop(ExpressionArray, { group: "math" });
+
+const [parentmath, Mathsign] = useDragAndDrop(MathSignsArray, { group: "math", sortable: false });
+
+
+
 
 </script>
 <template>
@@ -41,14 +45,14 @@ function sadasdsa(){
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :animation="150" group="Draggables" v-model="Expression" @remove="sadasdsa"
+          <div ref="parentexp"
             class="flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
-          </VueDraggable>
-          <VueDraggable :animation="150" :group="{name: 'Draggables', pull: 'clone' , put: false}" v-model="Mathsign"
-            class="mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
-            <span v-for="sign in Mathsign">{{ sign.value }}</span>
-          </VueDraggable>
+          </div>
+          <div ref="parentmath"
+            class="mt-10 h-1/6 w-3/6 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
+            <span v-for="sign in Mathsign" :key="sign.id">{{ sign.value }}</span>
+          </div>
         </div>
       </section>
     </div>

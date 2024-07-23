@@ -10,13 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "^0.1.6",
     "@nuxt/fonts": "^0.7.1",
     "@nuxt/icon": "^1.0.0",
     "@nuxt/ui": "^2.17.0",
     "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.12.3",
     "vue": "latest",
-    "vue-draggable-plus": "^0.5.2",
     "vuedraggable": "^4.1.0"
   }
 }
