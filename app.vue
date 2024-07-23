@@ -1,5 +1,5 @@
-<script setup>
-import { VueDraggable } from 'vue-draggable-plus'
+<script setup lang="ts">
+import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
 const Expression = ref([
   { id: '1', value: '1' },
   { id: '2', value: '2' },
@@ -21,6 +21,52 @@ const Mathsign = ref([
   },
 ]);
 
+function onEnd(event: DraggableEvent) {
+  console.log(event);
+  ruleChecking(event)
+}
+
+function ruleChecking(event: DraggableEvent) {
+  if (isFromSameSection(event.from, event.to)) {
+    console.log("same section");
+  }
+  else {
+    if (isMathSign(event.item.innerText)) {
+      if (isDroppedInSignsSection(event.to.classList)) {
+        console.log('dropped in signs');
+        if (typeof event.newIndex === 'number') {
+          Mathsign.value.splice(event.newIndex, 1)
+        }
+      }
+      else {
+        console.log('not dropped in signs');
+      }
+    }
+    if (isNumber(event.item.innerText)) {
+      if (isDroppedInSignsSection(event.to.classList)) {
+        console.log('dropped in signs');
+        if (typeof event.newIndex === 'number') {
+          Mathsign.value.splice(event.newIndex, 1)
+        }
+      }
+    }
+  }
+}
+
+function isFromSameSection(from: HTMLElement, to: HTMLElement) {
+  return from === to;
+}
+function isMathSign(item: string) {
+  const mathSignRegex = /^[\+\-\×\÷]$/;
+  return mathSignRegex.test(item);
+}
+function isNumber(value: any) {
+  const numberRegex = /^[0-9]$/;
+  return numberRegex.test(value);
+}
+function isDroppedInSignsSection(classes: DOMTokenList) {
+  return classes.contains("signs");
+}
 </script>
 <template>
   <div>
@@ -37,13 +83,14 @@ const Mathsign = ref([
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :animation="150" group="Draggables" v-model="Expression" @remove="sadasdsa"
-            class="flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
+          <VueDraggable :animation="150" :group="{ name: 'Draggables', pull: 'clone'}" v-model="Expression" @end="onEnd"
+            class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
           </VueDraggable>
-          <VueDraggable :animation="150" :group="{name: 'Draggables', pull: 'clone' , put: false}" v-model="Mathsign"
-            class="mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
-            <span v-for="sign in Mathsign">{{ sign.value }}</span>
+          <VueDraggable :animation="150" :group="{ name: 'Draggables', pull: 'clone' }" :sort="false" @end="onEnd"
+            v-model="Mathsign"
+            class="signs mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
+            <span v-for="sign in Mathsign" :key="sign.id">{{ sign.value }}</span>
           </VueDraggable>
         </div>
       </section>
