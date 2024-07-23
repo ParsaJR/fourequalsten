@@ -21,10 +21,6 @@ const Mathsign = ref([
   },
 ]);
 
-function sadasdsa(){
-  return false
-}
-
 </script>
 <template>
   <div>
