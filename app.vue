@@ -20,7 +20,6 @@ const Symbols = ref([
     id: '4-2', value: '÷'
   },
 ]);
-
 const el = ref<UseDraggableReturn>()
 
 
@@ -70,17 +69,8 @@ function ruleChecking(event: DraggableEvent) {
     }
   }
   // only 1 Math Symbol can user put between two number
-  if (isDroppedInExpressionSection(event) && isSymbol(event.item.innerText) && typeof event.newIndex === 'number') {
-    if (typeof Expression.value[event.newIndex - 1] !== 'undefined' && typeof Expression.value[event.newIndex + 1] !== 'undefined') {
-      if (isSymbol(Expression.value[event.newIndex - 1].value) || isSymbol(Expression.value[event.newIndex + 1].value)) {
-        removeSingleFromExpressionByIndex(event.newIndex)
-      }
-    }
-  }
-
-  // swap symbols if 2 math symbol put together in expression section
-  if (isFromSameSection(event) && isDroppedInExpressionSection(event) && typeof event.oldIndex !== 'undefined' && typeof event.newIndex !== 'undefined') {
-
+  if (isDroppedInExpressionSection(event)) {
+    removeDuplicateSymbols(Expression.value)
   }
 }
 
@@ -107,8 +97,12 @@ function removeSingleFromSymbolsByIndex(index: number) {
 function removeSingleFromExpressionByIndex(index: number) {
   Expression.value.splice(index, 1)
 }
-function swapDataInExpression(index1: number, index2: number) {
-
+function removeDuplicateSymbols(array: { id: string; value: string; }[]) {
+  for (let index = 0; index < array.length - 1; index++) {
+    if (array[index].value === array[index + 1].value && isSymbol(array[index].value)) {
+      array.splice(index, 1);
+    }
+  }
 }
 </script>
 <template>
