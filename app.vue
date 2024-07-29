@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
-const Expression = ref([
+import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
+let Expression = ref([
   { id: '1', value: '1' },
   { id: '2', value: '2' },
   { id: '3', value: '3' },
   { id: '4', value: '4' }
 ]);
-const Mathsign = ref([
+const Symbols = ref([
   {
     id: '1-2', value: '+'
   },
@@ -21,21 +21,37 @@ const Mathsign = ref([
   },
 ]);
 
+const el = ref<UseDraggableReturn>()
+
+
 function onEnd(event: DraggableEvent) {
-  console.log(event);
-  ruleChecking(event)
+  //ruleChecking(event)
+  // this.futureItem = Expression[this.futureIndex]
+  // this.movingItem = Expression[this.movingIndex]
+  // const _Expression = Object.assign([], Expression)
+  // _Expression[this.futureIndex] = movingItem
+  // _Expression[this.movingIndex] = futureItem
+}
+function onMove(event: DraggableEvent) {
+  // const { index, futureIndex } = event.newIndex;
+  // this.movingIndex = index
+  // this.futureIndex = futureIndex
+   return false;
 }
 
+
+
 function ruleChecking(event: DraggableEvent) {
-  if (isFromSameSection(event.from, event.to)) {
+  if (isFromSameSection(event)) {
     console.log("same section");
   }
   else {
-    if (isMathSign(event.item.innerText)) {
-      if (isDroppedInSignsSection(event.to.classList)) {
+    if (isSymbol(event.item.innerText)) {
+      if (isDroppedInSymbolsSection(event)) {
         console.log('dropped in signs');
-        if (typeof event.newIndex === 'number') {
-          Mathsign.value.splice(event.newIndex, 1)
+        if (typeof event.newIndex === 'number' && typeof event.oldIndex === 'number') {
+          removeSingleFromSymbolsByIndex(event.newIndex)
+          removeSingleFromExpressionByIndex(event.oldIndex)
         }
       }
       else {
@@ -43,20 +59,43 @@ function ruleChecking(event: DraggableEvent) {
       }
     }
     if (isNumber(event.item.innerText)) {
-      if (isDroppedInSignsSection(event.to.classList)) {
+      if (isDroppedInSymbolsSection(event)) {
         console.log('dropped in signs');
-        if (typeof event.newIndex === 'number') {
-          Mathsign.value.splice(event.newIndex, 1)
+        if (typeof event.newIndex === 'number' && typeof event.oldIndex === 'number') {
+          removeSingleFromSymbolsByIndex(event.newIndex)
         }
       }
     }
   }
+
+  // Symbols cant place at end or start of expression
+  if (isDroppedInExpressionSection(event)) {
+    if (isSymbol(Expression.value[0].value)) {
+      removeSingleFromExpressionByIndex(0);
+    }
+    else if (isSymbol(Expression.value[Expression.value.length - 1].value)) {
+      removeSingleFromExpressionByIndex(Array.prototype.lastIndexOf(Expression))
+    }
+  }
+  // only 1 Math Symbol can user put between two number
+  if (isDroppedInExpressionSection(event) && isSymbol(event.item.innerText) && typeof event.newIndex === 'number') {
+    if (typeof Expression.value[event.newIndex - 1] !== 'undefined' && typeof Expression.value[event.newIndex + 1] !== 'undefined') {
+      if (isSymbol(Expression.value[event.newIndex - 1].value) || isSymbol(Expression.value[event.newIndex + 1].value)) {
+        removeSingleFromExpressionByIndex(event.newIndex)
+      }
+    }
+  }
+
+  // swap symbols if 2 math symbol put together in expression section
+  if (isFromSameSection(event) && isDroppedInExpressionSection(event) && typeof event.oldIndex !== 'undefined' && typeof event.newIndex !== 'undefined') {
+
+  }
 }
 
-function isFromSameSection(from: HTMLElement, to: HTMLElement) {
-  return from === to;
+function isFromSameSection(event: DraggableEvent) {
+  return event.from === event.to;
 }
-function isMathSign(item: string) {
+function isSymbol(item: string) {
   const mathSignRegex = /^[\+\-\×\÷]$/;
   return mathSignRegex.test(item);
 }
@@ -64,8 +103,20 @@ function isNumber(value: any) {
   const numberRegex = /^[0-9]$/;
   return numberRegex.test(value);
 }
-function isDroppedInSignsSection(classes: DOMTokenList) {
-  return classes.contains("signs");
+function isDroppedInSymbolsSection(event: DraggableEvent) {
+  return event.to.classList.contains("symbols");
+}
+function isDroppedInExpressionSection(event: DraggableEvent) {
+  return event.to.classList.contains("expression");
+}
+function removeSingleFromSymbolsByIndex(index: number) {
+  Symbols.value.splice(index, 1)
+}
+function removeSingleFromExpressionByIndex(index: number) {
+  Expression.value.splice(index, 1)
+}
+function swapDataInExpression(index1: number, index2: number) {
+
 }
 </script>
 <template>
@@ -83,14 +134,13 @@ function isDroppedInSignsSection(classes: DOMTokenList) {
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :animation="150" :group="{ name: 'Draggables', pull: 'clone'}" v-model="Expression" @end="onEnd"
+          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd" @move="onMove"
             class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
           </VueDraggable>
-          <VueDraggable :animation="150" :group="{ name: 'Draggables', pull: 'clone' }" :sort="false" @end="onEnd"
-            v-model="Mathsign"
-            class="signs mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
-            <span v-for="sign in Mathsign" :key="sign.id">{{ sign.value }}</span>
+          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" :sort="false" @end="onEnd" v-model="Symbols"
+            ref="el" class="symbols mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
+            <span v-for="symbol in Symbols" :key="symbol.id">{{ symbol.value }}</span>
           </VueDraggable>
         </div>
       </section>
