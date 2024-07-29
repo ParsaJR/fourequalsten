@@ -25,18 +25,10 @@ const el = ref<UseDraggableReturn>()
 
 
 function onEnd(event: DraggableEvent) {
-  //ruleChecking(event)
-  // this.futureItem = Expression[this.futureIndex]
-  // this.movingItem = Expression[this.movingIndex]
-  // const _Expression = Object.assign([], Expression)
-  // _Expression[this.futureIndex] = movingItem
-  // _Expression[this.movingIndex] = futureItem
+  ruleChecking(event)
 }
 function onMove(event: DraggableEvent) {
-  // const { index, futureIndex } = event.newIndex;
-  // this.movingIndex = index
-  // this.futureIndex = futureIndex
-   return false;
+  return false;
 }
 
 
