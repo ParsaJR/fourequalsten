@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import { swap, animations } from "@formkit/drag-and-drop";
 import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
 
 const ExpressionArray = [
   { id: '1', value: '1' },
-  { id: '2', value: '2' },
-  { id: '3', value: '3' },
-  { id: '4', value: '4' }
+  { id: '2', value: ' ' },
+  { id: '3', value: '2' },
+  { id: '4', value: ' ' },
+  { id: '5', value: '3' },
+  { id: '6', value: ' ' },
+  { id: '7', value: '4' }
 ];
 const MathSignsArray = [
   {
@@ -22,9 +26,9 @@ const MathSignsArray = [
   },
 ];
 
-const [parentexp, Expression] = useDragAndDrop(ExpressionArray, { group: "math" });
+const [parentexp, Expression] = useDragAndDrop(ExpressionArray, { group: "hello", plugins: [swap()] });
 
-const [parentmath, Mathsign] = useDragAndDrop(MathSignsArray, { group: "math", sortable: false });
+const [parentmath, Mathsign] = useDragAndDrop(MathSignsArray, { group: "hello" });
 
 
 
