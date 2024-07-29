@@ -33,6 +33,7 @@ function onMove(event: DraggableEvent) {
 
 
 function ruleChecking(event: DraggableEvent) {
+  //remove symbols & numbers when dropping in Symbols Sections
   if (isFromSameSection(event)) {
     console.log("same section");
   }
@@ -59,7 +60,7 @@ function ruleChecking(event: DraggableEvent) {
     }
   }
 
-  // Symbols cant place at end or start of expression
+  // Symbols cant place at the end or start of expression
   if (isDroppedInExpressionSection(event)) {
     if (isSymbol(Expression.value[0].value)) {
       removeSingleFromExpressionByIndex(0);
@@ -68,7 +69,7 @@ function ruleChecking(event: DraggableEvent) {
       removeSingleFromExpressionByIndex(Array.prototype.lastIndexOf(Expression))
     }
   }
-  // only 1 Math Symbol can user put between two number
+  // only 1 Math Symbol can user put between two numbers
   if (isDroppedInExpressionSection(event)) {
     removeDuplicateSymbols(Expression.value)
   }
@@ -120,7 +121,7 @@ function removeDuplicateSymbols(array: { id: string; value: string; }[]) {
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd" @move="onMove"
+          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd" @move="onMove" :animation="100"
             class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
           </VueDraggable>
