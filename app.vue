@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
+import draggableComponent from 'vuedraggable';
 let Expression = ref([
   { id: '1', value: '1' },
   { id: '2', value: '2' },
@@ -20,7 +21,6 @@ const Symbols = ref([
     id: '4-2', value: '÷'
   },
 ]);
-}
 </script>
 <template>
   <div>
@@ -37,14 +37,14 @@ const Symbols = ref([
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" 
+          <draggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" 
             class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
-          </VueDraggable>
-          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Symbols"
+          </draggable>
+          <draggableComponent :group="{ name: 'Draggables', pull: 'clone' }" v-model="Symbols"
             ref="el" class="symbols mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
             <span v-for="symbol in Symbols" :key="symbol.id">{{ symbol.value }}</span>
-          </VueDraggable>
+          </draggableComponent>
         </div>
       </section>
     </div>
