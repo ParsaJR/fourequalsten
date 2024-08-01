@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
+// @ts-ignore
+import Eval from 'bigeval';
+
+let BigEval = new Eval();
+
+let IsValidLength = computed(() => {
+  return Expression.value.length === 7 ? true : false
+});
+let result = computed(() => {
+  return IsStructureValid() && IsValidLength.value ? calculateResult() : '?'
+})
 let Expression = ref([
   { id: '1', value: '1' },
   { id: '2', value: '2' },
@@ -105,6 +116,53 @@ function removeDuplicateSymbols(array: { id: string; value: string; }[]) {
     }
   }
 }
+function IsStructureValid() {
+  let IsStructureValid: boolean = true;
+  for (let index = 0; index < Expression.value.length - 1; index++) {
+    switch (index) {
+      case 0:
+        if (!isNumber(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      case 1:
+        if (!isSymbol(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      case 2:
+        if (!isNumber(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      case 3:
+        if (!isSymbol(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      case 4:
+        if (!isNumber(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      case 5:
+        if (!isSymbol(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      case 6:
+        if (isNumber(Expression.value[index].value))
+          IsStructureValid = false;
+        break;
+      default:
+        IsStructureValid = false;
+        break;
+    }
+  }
+  return IsStructureValid;
+}
+function calculateResult() {
+  let totalexpression = '';
+  for (let index = 0; index < Expression.value.length; index++) {
+    totalexpression += Expression.value[index].value
+  }
+  let result: number = BigEval.exec(totalexpression);
+  return result;
+}
 </script>
 <template>
   <div>
@@ -112,16 +170,20 @@ function removeDuplicateSymbols(array: { id: string; value: string; }[]) {
     <div class="h-screen main-linear-bg-desktop flex flex-col">
       <section class="h-3/6 flex flex-col">
         <div class="flex flex-row justify-between m-5 items-center">
-          <UButton icon="i-heroicons-bars-3-16-solid" size="xl" variant="ghost" color="white" />
+          <div>
+            <UButton icon="i-heroicons-bars-3-16-solid" size="xl" variant="ghost" color="white" />
+            <UButton icon="i-heroicons-user-16-solid" size="xl" variant="ghost" color="white" />
+          </div>
           <div class="p-2 text-lg sm:text-3xl"><span>0</span><span>/</span><span>20</span></div>
         </div>
         <div class="h-full flex justify-center items-center">
-          <h2 class="text-7xl">10</h2>
+          <h2 class="text-7xl">{{ result }}</h2>
         </div>
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd" @move="onMove" :animation="100"
+          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd" @move="onMove"
+            :animation="100"
             class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
           </VueDraggable>
