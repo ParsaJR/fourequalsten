@@ -2,6 +2,14 @@
 import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
 // @ts-ignore
 import Eval from 'bigeval';
+import { LoginModal } from '#components';
+
+const modal = useModal();
+const toast = useToast();
+
+function openLoginModal() {
+  modal.open(LoginModal);
+}
 
 let BigEval = new Eval();
 
@@ -111,7 +119,7 @@ function removeSingleFromExpressionByIndex(index: number) {
 }
 function removeDuplicateSymbols(array: { id: string; value: string; }[]) {
   for (let index = 0; index < array.length - 1; index++) {
-    if (array[index].value === array[index + 1].value && isSymbol(array[index].value)) {
+    if (isSymbol(array[index + 1].value) && isSymbol(array[index].value)) {
       array.splice(index, 1);
     }
   }
@@ -172,7 +180,8 @@ function calculateResult() {
         <div class="flex flex-row justify-between m-5 items-center">
           <div>
             <UButton icon="i-heroicons-bars-3-16-solid" size="xl" variant="ghost" color="white" />
-            <UButton icon="i-heroicons-user-16-solid" size="xl" variant="ghost" color="white" />
+            <UButton icon="i-heroicons-user-16-solid" size="xl" variant="ghost" color="white"
+              @click="openLoginModal()" />
           </div>
           <div class="p-2 text-lg sm:text-3xl"><span>0</span><span>/</span><span>20</span></div>
         </div>
@@ -195,6 +204,7 @@ function calculateResult() {
       </section>
     </div>
   </div>
+  <UModals />
 </template>
 <style>
 body {
