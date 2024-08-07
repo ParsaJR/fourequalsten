@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
+const { loggedIn } = useUserSession()
+
 // @ts-ignore
 import Eval from 'bigeval';
 import { LoginModal } from '#components';
+
+if (loggedIn) {
+  console.log('Hey');
+}
 
 const modal = useModal();
 const toast = useToast();
