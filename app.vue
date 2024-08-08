@@ -6,8 +6,9 @@ const { loggedIn } = useUserSession()
 import Eval from 'bigeval';
 import { LoginModal } from '#components';
 
-if (loggedIn) {
-  console.log('Hey');
+if (loggedIn.value) {
+  const data = await useFetch('/api/levels/1')
+  console.log(data.data);
 }
 
 const modal = useModal();
