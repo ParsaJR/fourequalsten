@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
-const { loggedIn } = useUserSession()
+const { loggedIn, user } = useUserSession()
 
 // @ts-ignore
 import Eval from 'bigeval';
 import { LoginModal } from '#components';
 
-if (loggedIn.value) {
-  const data = await useFetch('/api/levels/1')
-  console.log(data.data);
-}
+
 
 const modal = useModal();
 const toast = useToast();
@@ -52,8 +49,18 @@ const el = ref<UseDraggableReturn>()
 function onEnd(event: DraggableEvent) {
   ruleChecking(event)
 }
+
 function onMove(event: DraggableEvent) {
-  return false;
+  
+}
+
+if (loggedIn.value) {
+  const ourlevel = await useFetch('/api/levels/getCurrentLevel');
+  const actualLevels = ourlevel.data.value;
+  console.log(actualLevels);
+  for (let index = 0; index < Expression.value.length; index++) {
+     Expression.value[index].value = actualLevels[index];
+  }
 }
 
 

@@ -1,7 +1,11 @@
+import type mongoose from "mongoose";
+import type { Mongoose, ObjectId } from "mongoose";
+
 declare module "#auth-utils" {
   interface User {
+    id?: any;
     github?: string;
-    gmail?: string;
+    email?: string;
     name?: string;
     loggedInAt?: string;
   }
