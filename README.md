@@ -1,5 +1,5 @@
 # fourequalsten
-A game similar to fairly known 4=10 on Google Play
+A game similar to fairly known 4=10 game on Google Play
 # Notable tools
 - Nuxt 3
 - Nuxt UI
