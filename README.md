@@ -1,17 +1,18 @@
 # fourequalsten
 A game similar to fairly known 4=10 on Google Play
-# Built using tools
+# Notable tools
 - Nuxt 3
 - Nuxt UI
 - Nuxt-auth-Utils
 - Vue-draggable-plus
+- [And ...](https://github.com/ParsaJR/fourequalsten/blob/master/package-lock.json)
 # Features
 
 - [X] Core game logic using DAD
 - [ ] Game Levels
 - [ ] Google OAuth
 - [ ] Saving game progress
-- [ ] Tap Mode (much better user experince)
+- [ ] Tap Mode (for better user experince)
 - [ ] Support Parentheses
 - [ ] Github OAuth
 
