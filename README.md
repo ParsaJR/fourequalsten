@@ -8,7 +8,7 @@ A game similar to fairly known 4=10 on Google Play
 - [And ...](https://github.com/ParsaJR/fourequalsten/blob/master/package-lock.json)
 # Features
 
-- [X] Core game logic using DAD
+- [X] Core game logic using Drag & Drop Mode
 - [ ] Game Levels
 - [ ] Google OAuth
 - [ ] Saving game progress
