@@ -9,10 +9,10 @@ A game similar to fairly known 4=10 game on Google Play
 # Features
 
 - [X] Core game logic using Drag & Drop Mode
-- [ ] Game Levels
-- [ ] Google OAuth
-- [ ] Saving game progress
-- [ ] Tap Mode (for better user experince)
+- [X] Game Levels
+- [X] Google OAuth
+- [X] Saving game progress
+- [ ] Tap Mode (for better user experience)
 - [ ] Support Parentheses
 - [ ] Github OAuth
 
