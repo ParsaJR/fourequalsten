@@ -3,11 +3,12 @@ import type { Mongoose, ObjectId } from "mongoose";
 
 declare module "#auth-utils" {
   interface User {
-    id?: any;
+    userId?: number;
     github?: string;
     email?: string;
     name?: string;
     loggedInAt?: string;
+    sub?: number;
   }
   interface UserSession {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,19 +1,26 @@
 <script setup lang="ts">
 import { VueDraggable, type DraggableEvent, type UseDraggableReturn } from 'vue-draggable-plus'
-const { loggedIn, user } = useUserSession()
+const { loggedIn, user, clear } = useUserSession()
 
 // @ts-ignore
 import Eval from 'bigeval';
 import { LoginModal } from '#components';
 
-
-
 const modal = useModal();
 const toast = useToast();
 
 function openLoginModal() {
-  modal.open(LoginModal);
+  if (loggedIn.value === false)
+    modal.open(LoginModal);
+  else
+    return;
 }
+
+const items = [[{
+  label: 'Logout',
+  icon: 'i-heroicons-arrow-left-on-rectangle',
+  click: clear
+}]]
 
 let BigEval = new Eval();
 
@@ -22,6 +29,9 @@ let IsValidLength = computed(() => {
 });
 let result = computed(() => {
   return IsStructureValid() && IsValidLength.value ? calculateResult() : '?'
+})
+let solved = computed(() => {
+  return result.value === 10
 })
 let Expression = ref([
   { id: '1', value: '1' },
@@ -51,15 +61,48 @@ function onEnd(event: DraggableEvent) {
 }
 
 function onMove(event: DraggableEvent) {
-  
+  return false;
 }
 
 if (loggedIn.value) {
   const ourlevel = await useFetch('/api/levels/getCurrentLevel');
-  const actualLevels = ourlevel.data.value;
-  console.log(actualLevels);
+  const actualLevels = ourlevel.data.value
   for (let index = 0; index < Expression.value.length; index++) {
-     Expression.value[index].value = actualLevels[index];
+    if (typeof actualLevels !== 'undefined' && actualLevels !== null)
+      Expression.value[index].value = actualLevels[index];
+  }
+}
+
+async function setupNextLevel() {
+  let hasError: boolean = false;
+  await $fetch('/api/levels/nextLevel', { method: 'PATCH' }).catch((error) => {
+
+    hasError = true;
+
+    if (error.data.statusCode === 401) {
+      toast.add({ title: 'Unauthorized. Please Login first' })
+    }
+    else if (error.data.statusCode === 400) {
+      toast.add({ title: error.data.statusMessage });
+    }
+    else {
+      toast.add({ title: 'Something Wrong' });
+    }
+  });
+
+  if (hasError === false) {
+    const ourlevel = await $fetch('/api/levels/getCurrentLevel');
+    let NewExpression = ref([
+      { id: '1', value: '' },
+      { id: '2', value: '' },
+      { id: '3', value: '' },
+      { id: '4', value: '' }
+    ]);
+    for (let index = 0; index < NewExpression.value.length; index++) {
+      if (typeof ourlevel !== 'undefined' && ourlevel !== null)
+        NewExpression.value[index].value = ourlevel[index];
+    }
+    Expression.value = NewExpression.value;
   }
 }
 
@@ -178,11 +221,26 @@ function IsStructureValid() {
   return IsStructureValid;
 }
 function calculateResult() {
-  let totalexpression = '';
+  // stick the whole expression together in one signle string 
+  let totalExpression: string = '';
   for (let index = 0; index < Expression.value.length; index++) {
-    totalexpression += Expression.value[index].value
+    totalExpression += Expression.value[index].value
   }
-  let result: number = BigEval.exec(totalexpression);
+  // replace * & / for avoid bigeval error
+  const splitedExpression = totalExpression.split("");
+  for (let index = 0; index < splitedExpression.length - 1; index++) {
+    switch (splitedExpression[index]) {
+      case '×':
+        splitedExpression[index] = '*'
+        break;
+      case '÷':
+        splitedExpression[index] = '/'
+      default:
+        break;
+    }
+  }
+  totalExpression = splitedExpression.join("");
+  let result: number = BigEval.exec(totalExpression);
   return result;
 }
 </script>
@@ -192,20 +250,32 @@ function calculateResult() {
     <div class="h-screen main-linear-bg-desktop flex flex-col">
       <section class="h-3/6 flex flex-col">
         <div class="flex flex-row justify-between m-5 items-center">
-          <div>
+          <div class="flex justify-center">
             <UButton icon="i-heroicons-bars-3-16-solid" size="xl" variant="ghost" color="white" />
-            <UButton icon="i-heroicons-user-16-solid" size="xl" variant="ghost" color="white"
-              @click="openLoginModal()" />
           </div>
-          <div class="p-2 text-lg sm:text-3xl"><span>0</span><span>/</span><span>20</span></div>
+          <div>
+            <UButton v-if="!user" size="xl" variant="ghost" color="white" @click="openLoginModal()"
+              title="Login/Signin">
+              <UAvatar icon="i-heroicons-user-solid" size="lg" />
+            </UButton>
+            <UDropdown v-else :items="items" :popper="{ placement: 'bottom' }">
+              <UButton variant="ghost" color="white" trailing-icon="i-heroicons-chevron-down-20-solid">
+                <UAvatar :src="user.picture" size="md" :alt="user.name" />
+                <span class="hidden lg:inline">{{user.name}}</span>
+              </UButton>
+            </UDropdown>
+          </div>
         </div>
-        <div class="h-full flex justify-center items-center">
-          <h2 class="text-7xl">{{ result }}</h2>
+        <div class="h-full flex justify-center items-center flex-col gap-y-12">
+          <h2 class="text-7xl font-thin" v-bind:class="{ 'text-9xl font-bold': solved }">{{ result }}</h2>
+          <a v-if="solved" @click="setupNextLevel()" class="hover:cursor-pointer">
+            <Icon name="i-heroicons-arrow-long-right-16-solid" size="60px"></Icon>
+          </a>
         </div>
       </section>
       <section class="h-3/6">
         <div class="wrapper bg-[#020919] h-full w-full flex flex-col items-center justify-center">
-          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd" @move="onMove"
+          <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd"
             :animation="100"
             class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
             <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
@@ -218,6 +288,7 @@ function calculateResult() {
       </section>
     </div>
   </div>
+  <UNotifications />
   <UModals />
 </template>
 <style>

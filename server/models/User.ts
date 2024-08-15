@@ -1,6 +1,12 @@
 import { model, Schema } from "mongoose";
 
 const UserSchema = new Schema({
+  userId:{
+    type: Number,
+    required: true,
+    unique: true,
+    trim: true
+  },
   email: {
     type: String,
     required: true,
@@ -18,6 +24,7 @@ const UserSchema = new Schema({
   },
   currentLevel: {
     type: Number,
+    required: true,
     default: 1,
   },
 });

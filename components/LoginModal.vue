@@ -7,7 +7,7 @@ const { loggedIn, user, session, fetch, clear } = useUserSession()
     <UModal>
         <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             <template #header v-if="loggedIn">
-                <p>Welcome {{ user.name }} !</p>
+                <UAvatar :src="user.picture"></UAvatar>
             </template>
             <template #header v-else>
                 <p>Login Method</p>

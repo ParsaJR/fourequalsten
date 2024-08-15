@@ -16,19 +16,13 @@ export default oauthGoogleEventHandler({
           name: user.name,
           email: user.email,
           lastLogin: new Date().toLocaleDateString(),
+          userId: user.sub,
         });
       } catch (error) {
         console.log("somethings wrong", error);
       }
     }
-    await setUserSession(event, {
-      user: {
-        id: await User.findOne({email: user.email}).select('_id'),
-        name: user.name,
-        loggedInAt: new Date().toLocaleDateString(),
-      },
-    });
-
+    await setUserSession(event, {user})
     return sendRedirect(event, "/");
   },
 });
