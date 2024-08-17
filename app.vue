@@ -42,10 +42,10 @@ let solved = computed(() => {
 })
 
 let BaseExpression = ref([
-  { id: '1', value: '' },
-  { id: '2', value: '' },
-  { id: '3', value: '' },
-  { id: '4', value: '' }
+  { id: '1', value: '1' },
+  { id: '2', value: '2' },
+  { id: '3', value: '3' },
+  { id: '4', value: '4' }
 ]);
 
 let Expression = ref([
