@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
   } else {
     throw createError({
       statusCode: 400,
-      statusMessage: "You reached to the end of levels! More levels coming in the future!",
+      statusMessage: "You've reached the end of the levels! More levels are coming in the future!",
       fatal: false
     });
   }
