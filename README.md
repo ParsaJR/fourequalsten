@@ -1,8 +1,9 @@
 # fourequalsten
 A game similar to fairly known 4=10 game on Google Play
 # Notable tools
-- Nuxt 3
-- Nuxt UI
+- Nuxt 3 + Nuxt UI
+- Nitro Server
+- MongoDB
 - Nuxt-auth-Utils
 - Vue-draggable-plus
 - [And ...](https://github.com/ParsaJR/fourequalsten/blob/master/package-lock.json)
