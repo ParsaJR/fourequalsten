@@ -6,9 +6,16 @@ const { loggedIn, user, clear } = useUserSession()
 import Eval from 'bigeval';
 import { LoginModal } from '#components';
 
+let BigEval = new Eval();
+
 const modal = useModal();
 const toast = useToast();
 let isRotated = ref(false);
+
+const userStatus = ref({
+  currentLevel: 0,
+  levelCount: 0
+});
 
 function openLoginModal() {
   if (loggedIn.value === false)
@@ -28,8 +35,6 @@ const items = [[{
   icon: 'i-heroicons-arrow-left-on-rectangle',
   click: clear
 }]]
-
-let BigEval = new Eval();
 
 let IsValidLength = computed(() => {
   return Expression.value.length === 7 ? true : false
@@ -79,14 +84,26 @@ function onMove(event: DraggableEvent) {
   return false;
 }
 
+async function updateUserStatus() {
+  const response = await $fetch('/api/users/getUserLevel');
+  userStatus.value.currentLevel = response[0];
+  userStatus.value.levelCount = response[1];
+  console.log(userStatus);
+}
+
+
 if (loggedIn.value) {
-  const ourlevel = await useFetch('/api/levels/getCurrentLevel');
-  const actualLevels = ourlevel.data.value
+  // const userStatusResponse = await useFetch('/api/users/getUserLevel');
+  // currentLevel.value = userStatusResponse.data.value[0].currentLevel;
+  // allLevelCount.value = userStatusResponse.data.value[1];
+  const levelResponse = await useFetch('/api/levels/getCurrentLevel');
+  const actualLevels = levelResponse.data.value
   for (let index = 0; index < Expression.value.length; index++) {
     if (typeof actualLevels !== 'undefined' && actualLevels !== null)
       Expression.value[index].value = actualLevels[index];
   }
   BaseExpression.value = Expression.value;
+  updateUserStatus()
 }
 
 function refreshExpression() {
@@ -125,6 +142,7 @@ async function setupNextLevel() {
     }
     Expression.value = NewExpression.value;
     BaseExpression.value = NewExpression.value;
+    updateUserStatus()
   }
 }
 
@@ -275,7 +293,9 @@ function calculateResult() {
           <div class="flex justify-center">
             <UButton icon="i-heroicons-bars-3-16-solid" size="xl" variant="ghost" color="white" />
           </div>
-          <div>
+          <div class="flex items-center gap-2">
+            <UBadge v-if="user" color="white" variant="outline" size="lg" :class="'ring-white ring-1'">{{
+              userStatus.currentLevel }} / {{ userStatus.levelCount }}</UBadge>
             <UButton v-if="!user" size="xl" variant="ghost" color="white" @click="openLoginModal()"
               title="Login/Signin">
               <UAvatar icon="i-heroicons-user-solid" size="lg" />
@@ -330,12 +350,20 @@ body {
   background: linear-gradient(to bottom,
       rgb(4, 24, 46) 0%,
       rgba(60, 135, 175, 0.94) 100%);
-}.rotate-animation{
-  animation: rotate-once 400ms linear;
+}
+
+.rotate-animation {
+  animation: rotate-once 400ms normal;
   animation-fill-mode: forwards;
 }
+
 @keyframes rotate-once {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
