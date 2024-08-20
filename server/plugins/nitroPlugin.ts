@@ -2,9 +2,8 @@ import mongoose from "mongoose";
 import { Level } from "../models/Level";
 
 export default defineNitroPlugin(async (nitroapp) => {
-  const config = useRuntimeConfig();
   try {
-    await mongoose.connect(config.mongodbUri);
+    await mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
     if ((await Level.countDocuments()) === 0) {
       populateLevels();
     }

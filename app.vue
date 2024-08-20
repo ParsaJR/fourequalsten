@@ -17,6 +17,12 @@ const userStatus = ref({
   levelCount: 0
 });
 
+onMounted(async () => {
+  if(loggedIn.value)
+  await updateUserStatus();
+})
+
+
 function openLoginModal() {
   if (loggedIn.value === false)
     modal.open(LoginModal);
@@ -103,7 +109,6 @@ if (loggedIn.value) {
       Expression.value[index].value = actualLevels[index];
   }
   BaseExpression.value = Expression.value;
-  updateUserStatus()
 }
 
 function refreshExpression() {
@@ -142,7 +147,7 @@ async function setupNextLevel() {
     }
     Expression.value = NewExpression.value;
     BaseExpression.value = NewExpression.value;
-    updateUserStatus()
+    await updateUserStatus()
   }
 }
 
