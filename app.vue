@@ -358,7 +358,7 @@ body {
 }
 
 .rotate-animation {
-  animation: rotate-once 400ms normal;
+  animation: rotate-once 500ms normal;
   animation-fill-mode: forwards;
 }
 
