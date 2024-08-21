@@ -33,7 +33,7 @@ function toggleRotation() {
   isRotated.value = !isRotated.value;
   setTimeout(() => {
     isRotated.value = false;
-  }, 400)
+  }, 500)
 }
 
 const items = [[{
