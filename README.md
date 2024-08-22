@@ -1,5 +1,5 @@
 # fourequalsten
-A game similar to fairly known 4=10 game on Google Play
+A game similar to fairly known [4=10](https://play.google.com/store/apps/details?id=app.fourequalsten.fourequalsten_app) game on Google Play
 # Notable tools
 - Nuxt 3 + Nuxt UI
 - Nitro Server
