@@ -1,4 +1,5 @@
-FROM node:lts
+# Stage 1: Build stage
+FROM node:lts-alpine AS build
 
 WORKDIR /my-nuxt-app
 
@@ -9,6 +10,14 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+
+# Stage 2: Production stage
+
+FROM node:lts-alpine AS production
+
+WORKDIR /my-nuxt-app
+
+COPY --from=build /my-nuxt-app/.output ./.output
 
 EXPOSE 3000
 
