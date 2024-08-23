@@ -8,6 +8,14 @@ import { LoginModal } from '#components';
 
 let BigEval = new Eval();
 
+// Temporary workaround for UDropdown problem on mobile 
+const menuDisabled = ref(false);
+const checkTouch = (e: PointerEvent) => {
+  e.pointerType === 'touch'
+    ? (menuDisabled.value = true)
+    : (menuDisabled.value = false);
+};
+ 
 const modal = useModal();
 const toast = useToast();
 let isRotated = ref(false);
@@ -305,8 +313,8 @@ function calculateResult() {
               title="Login/Signin">
               <UAvatar icon="i-heroicons-user-solid" size="lg" />
             </UButton>
-            <UDropdown v-else :items="items" :popper="{ placement: 'bottom' }">
-              <UButton variant="ghost" color="white" trailing-icon="i-heroicons-chevron-down-20-solid">
+            <UDropdown v-else :items="items" :disabled="menuDisabled" :popper="{ placement: 'bottom' }">
+              <UButton @click="checkTouch" variant="ghost" color="white" trailing-icon="i-heroicons-chevron-down-20-solid">
                 <UAvatar :src="user.picture" size="md" :alt="user.name" />
                 <span class="hidden lg:inline">{{ user.name }}</span>
               </UButton>
