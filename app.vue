@@ -339,12 +339,12 @@ function calculateResult() {
           <div class="flex flex-col items-center justify-center h-[calc(100%-4rem)]">
             <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd"
               :animation="100"
-              class="expression flex items-center justify-center gap-2 font-medium sm:font-normal text-4xl sm:text-5xl">
+              class="expression flex items-center justify-center gap-3 font-medium sm:font-normal text-4xl sm:text-5xl">
               <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
             </VueDraggable>
             <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" :sort="false" @end="onEnd" v-model="Symbols"
-              ref="el" class="symbols mt-10 flex items-center justify-center gap-10 font-medium text-4xl sm:text-5xl">
-              <span v-for="symbol in Symbols" :key="symbol.id">{{ symbol.value }}</span>
+              ref="el" class="symbols mt-10 flex items-center justify-center gap-5 sm:gap-7 font-light text-4xl sm:text-5xl">
+              <span v-for="symbol in Symbols" :key="symbol.id" class="size-10 flex justify-center items-center">{{ symbol.value }}</span>
             </VueDraggable>
           </div>
         </div>
