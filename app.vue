@@ -322,7 +322,7 @@ function calculateResult() {
           </div>
         </div>
         <div class="h-full flex justify-center items-center flex-col gap-y-12">
-          <h2 class="text-7xl font-thin" v-bind:class="{ 'text-9xl font-bold': solved }">{{ result }}</h2>
+          <h2 v-bind:class="[solved ? 'text-9xl font-bold' : 'text-7xl font-thin' ]">{{ result }}</h2>
           <a v-if="solved" @click="setupNextLevel()" class="hover:cursor-pointer">
             <Icon name="i-heroicons-arrow-long-right-16-solid" size="60px"></Icon>
           </a>
@@ -339,7 +339,7 @@ function calculateResult() {
           <div class="flex flex-col items-center justify-center h-[calc(100%-4rem)]">
             <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd"
               :animation="100"
-              class="expression flex items-center justify-center gap-3 font-medium sm:font-normal text-4xl sm:text-5xl">
+              class="expression flex items-center justify-center gap-3 font-normal text-4xl sm:text-5xl">
               <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
             </VueDraggable>
             <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" :sort="false" @end="onEnd" v-model="Symbols"
