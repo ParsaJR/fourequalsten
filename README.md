@@ -1,3 +1,5 @@
+[![Publish Docker image](https://github.com/ParsaJR/fourequalsten/actions/workflows/docker-image.yml/badge.svg)](https://github.com/ParsaJR/fourequalsten/actions/workflows/docker-image.yml)
+
 # fourequalsten
 A game similar to fairly known [4=10](https://play.google.com/store/apps/details?id=app.fourequalsten.fourequalsten_app) game on Google Play
 # Notable tools
