@@ -4,7 +4,7 @@ const { loggedIn, user, clear } = useUserSession()
 
 // @ts-ignore
 import Eval from 'bigeval';
-import { LoginModal } from '#components';
+import { LoginModal,Slideover } from '#components';
 
 let BigEval = new Eval();
 
@@ -15,7 +15,8 @@ const checkTouch = (e: PointerEvent) => {
     ? (menuDisabled.value = true)
     : (menuDisabled.value = false);
 };
- 
+
+const hamburgerSlideover = useSlideover();
 const modal = useModal();
 const toast = useToast();
 let isRotated = ref(false);
@@ -30,6 +31,9 @@ onMounted(async () => {
   await updateUserStatus();
 })
 
+function openSlideover () {
+    hamburgerSlideover.open(Slideover,{onClose: hamburgerSlideover.close});
+}
 
 function openLoginModal() {
   if (loggedIn.value === false)
@@ -304,7 +308,7 @@ function calculateResult() {
       <section class="h-3/6 flex flex-col">
         <div class="flex flex-row justify-between m-5 items-center">
           <div class="flex justify-center">
-            <UButton icon="i-heroicons-bars-3-16-solid" size="xl" variant="ghost" color="white" />
+            <UButton icon="i-heroicons-bars-3-16-solid" @click="openSlideover()" size="xl" variant="ghost" color="white" />
           </div>
           <div class="flex items-center gap-2">
             <UBadge v-if="user" color="white" variant="outline" size="lg" :class="'ring-white ring-1'">{{
@@ -353,6 +357,7 @@ function calculateResult() {
   </div>
   <UNotifications />
   <UModals />
+  <USlideovers />
 </template>
 <style>
 body {
