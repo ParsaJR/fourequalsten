@@ -36,7 +36,7 @@ function onClose() {
             <template #footer>
                 <div class="flex justify-between items-center">
                     <p class="text-sm sm:text-base">&copy; 2024</p>
-                    <UButton icon="i-grommet-icons-github" variant="ghost" color="gray" size="md"></UButton>
+                    <UButton icon="i-grommet-icons-github" variant="ghost" color="gray" size="md" to="https://github.com/ParsaJR/fourequalsten" ></UButton>
                 </div>
             </template>
         </UCard>
