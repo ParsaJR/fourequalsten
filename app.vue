@@ -4,7 +4,7 @@ const { loggedIn, user, clear } = useUserSession()
 
 // @ts-ignore
 import Eval from 'bigeval';
-import { LoginModal,Slideover } from '#components';
+import { Modal, Slideover } from '#components';
 
 let BigEval = new Eval();
 
@@ -27,17 +27,26 @@ const userStatus = ref({
 });
 
 onMounted(async () => {
-  if(loggedIn.value)
-  await updateUserStatus();
+  if (loggedIn.value)
+    await updateUserStatus();
 })
 
-function openSlideover () {
-    hamburgerSlideover.open(Slideover,{onClose: hamburgerSlideover.close});
+function handleHowToPlay() {
+  modal.open(Modal, { howtoplay: true });
+  // Start something here
+};
+
+function handleAbout() {
+  modal.open(Modal, { about: true });
+}
+
+function openSlideover() {
+  hamburgerSlideover.open(Slideover, { onClose: hamburgerSlideover.close });
 }
 
 function openLoginModal() {
   if (loggedIn.value === false)
-    modal.open(LoginModal);
+    modal.open(Modal, { login: true });
   else
     return;
 }
@@ -308,7 +317,8 @@ function calculateResult() {
       <section class="h-3/6 flex flex-col">
         <div class="flex flex-row justify-between m-5 items-center">
           <div class="flex justify-center">
-            <UButton icon="i-heroicons-bars-3-16-solid" @click="openSlideover()" size="xl" variant="ghost" color="white" />
+            <UButton icon="i-heroicons-bars-3-16-solid" @click="openSlideover()" size="xl" variant="ghost"
+              color="white" />
           </div>
           <div class="flex items-center gap-2">
             <UBadge v-if="user" color="white" variant="outline" size="lg" :class="'ring-white ring-1'">{{
@@ -318,7 +328,8 @@ function calculateResult() {
               <UAvatar icon="i-heroicons-user-solid" size="lg" />
             </UButton>
             <UDropdown v-else :items="items" :disabled="menuDisabled" :popper="{ placement: 'bottom' }">
-              <UButton @click="checkTouch" variant="ghost" color="white" trailing-icon="i-heroicons-chevron-down-20-solid">
+              <UButton @click="checkTouch" variant="ghost" color="white"
+                trailing-icon="i-heroicons-chevron-down-20-solid">
                 <UAvatar :src="user.picture" size="md" :alt="user.name" />
                 <span class="hidden lg:inline">{{ user.name }}</span>
               </UButton>
@@ -326,7 +337,7 @@ function calculateResult() {
           </div>
         </div>
         <div class="h-full flex justify-center items-center flex-col gap-y-12">
-          <h2 v-bind:class="[solved ? 'text-9xl font-bold' : 'text-7xl font-thin' ]">{{ result }}</h2>
+          <h2 v-bind:class="[solved ? 'text-9xl font-bold' : 'text-7xl font-thin']">{{ result }}</h2>
           <a v-if="solved" @click="setupNextLevel()" class="hover:cursor-pointer">
             <Icon name="i-heroicons-arrow-long-right-16-solid" size="60px"></Icon>
           </a>
@@ -347,8 +358,10 @@ function calculateResult() {
               <span v-for="exper in Expression" :key="exper.id">{{ exper.value }}</span>
             </VueDraggable>
             <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" :sort="false" @end="onEnd" v-model="Symbols"
-              ref="el" class="symbols mt-10 flex items-center justify-center gap-5 sm:gap-7 font-light text-4xl sm:text-5xl">
-              <span v-for="symbol in Symbols" :key="symbol.id" class="size-10 flex justify-center items-center">{{ symbol.value }}</span>
+              ref="el"
+              class="symbols mt-10 flex items-center justify-center gap-5 sm:gap-7 font-light text-4xl sm:text-5xl">
+              <span v-for="symbol in Symbols" :key="symbol.id" class="size-10 flex justify-center items-center">{{
+                symbol.value }}</span>
             </VueDraggable>
           </div>
         </div>
@@ -357,7 +370,7 @@ function calculateResult() {
   </div>
   <UNotifications />
   <UModals />
-  <USlideovers />
+  <USlideovers @how-to-play="handleHowToPlay()" @about="handleAbout()" />
 </template>
 <style>
 body {

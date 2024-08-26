@@ -1,10 +1,18 @@
 <script setup lang="ts">
-const project_version = ref("");
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close','how-to-play','about'])
 
 function onClose() {
     emit('close');
 }
+function onHow(){
+    emit('how-to-play')
+    emit('close')
+}
+function onAbout(){
+    emit('about')
+    emit('close')
+}
+
 
 
 </script>
@@ -24,12 +32,12 @@ function onClose() {
                         </UButton>
                     </li>
                     <li>
-                        <UButton icon="i-grommet-icons-circle-information" variant="ghost" color="gray" size="lg">How to
+                        <UButton icon="i-grommet-icons-circle-information" variant="ghost" color="gray" size="lg" @click="onHow()" >How to
                             play
                         </UButton>
                     </li>
                     <li>
-                        <UButton icon="i-grommet-icons-user" variant="ghost" color="gray" size="lg">About</UButton>
+                        <UButton icon="i-grommet-icons-user" variant="ghost" color="gray" size="lg" @click="onAbout()" >About</UButton>
                     </li>
                 </ul>
             </div>
