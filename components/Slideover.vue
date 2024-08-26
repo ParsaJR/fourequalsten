@@ -28,7 +28,7 @@ function onAbout(){
             <div>
                 <ul>
                     <li>
-                        <UButton icon="i-grommet-icons-home-rounded" variant="ghost" color="gray" size="lg">Home
+                        <UButton icon="i-grommet-icons-home-rounded" variant="ghost" color="gray" size="lg" @click="onClose" >Home
                         </UButton>
                     </li>
                     <li>
