@@ -37,6 +37,11 @@ const props = defineProps(['login', 'howtoplay', 'about']);
         </UCard>
     </UModal>
     <UModal v-else-if="props.about">
-        from about?
+        <UCard>
+            <template #header>
+                <p>About</p>
+            </template>
+            Maketen, A casual number puzzle, where the goal is to make the 4 numbers in each level equal 10 by using the math symbols provided to us.
+        </UCard>
     </UModal>
 </template>
