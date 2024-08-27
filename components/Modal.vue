@@ -48,6 +48,9 @@ const props = defineProps(['login', 'howtoplay', 'about']);
             <p class="text-xs">The game is originally a incomplete recreation of <a class="text-green-400"
                     href="https://play.google.com/store/apps/details?id=app.fourequalsten.fourequalsten_app">4=10</a>
             </p>
+            <p class="text-xs"><a class="text-green-400"
+                    href="https://github.com/ParsaJR/fourequalsten">Source Code</a>
+            </p>
         </UCard>
     </UModal>
 </template>
