@@ -337,7 +337,7 @@ function calculateResult() {
           </div>
         </div>
         <div class="h-full flex justify-center items-center flex-col gap-y-12">
-          <h2 v-bind:class="[solved ? 'text-9xl font-bold' : 'text-7xl font-thin']">{{ result }}</h2>
+          <h2 class="truncate max-w-[8ch]" v-bind:class="[solved ? 'text-9xl font-bold' : 'text-7xl font-thin']">{{ result }}</h2>
           <a v-if="solved" @click="setupNextLevel()" class="hover:cursor-pointer">
             <Icon name="i-heroicons-arrow-long-right-16-solid" size="60px"></Icon>
           </a>

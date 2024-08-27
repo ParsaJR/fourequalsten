@@ -41,7 +41,16 @@ const props = defineProps(['login', 'howtoplay', 'about']);
             <template #header>
                 <p>About</p>
             </template>
-            Maketen, A casual number puzzle, where the goal is to make the 4 numbers in each level equal 10 by using the math symbols provided to us.
+            Maketen is a casual number puzzle, where the goal is to make the 4 numbers in each level equal 10 by using
+            the
+            math symbols provided to us.
+            <br><br>
+            <p class="text-xs">The game is originally a incomplete recreation of <a class="text-green-400"
+                    href="https://play.google.com/store/apps/details?id=app.fourequalsten.fourequalsten_app">4=10</a>
+            </p>
+            <p class="text-xs"><a class="text-green-400"
+                    href="https://github.com/ParsaJR/fourequalsten">Source Code</a>
+            </p>
         </UCard>
     </UModal>
 </template>
