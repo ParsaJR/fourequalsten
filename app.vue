@@ -50,13 +50,6 @@ function openLoginModal() {
   else
     return;
 }
-function toggleRotation() {
-  isRotated.value = !isRotated.value;
-  setTimeout(() => {
-    isRotated.value = false;
-  }, 500)
-}
-
 const items = [[{
   label: 'Logout',
   icon: 'i-heroicons-arrow-left-on-rectangle',
@@ -134,7 +127,6 @@ if (loggedIn.value) {
 
 function refreshExpression() {
   Expression.value = BaseExpression.value;
-  toggleRotation()
 }
 
 async function setupNextLevel() {
@@ -346,10 +338,7 @@ function calculateResult() {
       <section class="h-3/6">
         <div class="bg-[#020919] h-full">
           <div class="flex flex-row justify-end p-3 w-full h-16">
-            <UButton variant="ghost" color="white" @click="refreshExpression()">
-              <Icon name="i-heroicons-arrow-path-solid" size="1.5rem" class="transition-transform"
-                :class="{ 'rotate-animation': isRotated }" />
-            </UButton>
+            <RefreshButton @refresh="refreshExpression"/>
           </div>
           <div class="flex flex-col items-center justify-center h-[calc(100%-4rem)]">
             <VueDraggable :group="{ name: 'Draggables', pull: 'clone' }" v-model="Expression" @end="onEnd"
@@ -381,20 +370,5 @@ body {
   background: linear-gradient(to bottom,
       rgb(4, 24, 46) 0%,
       rgba(60, 135, 175, 0.94) 100%);
-}
-
-.rotate-animation {
-  animation: rotate-once 500ms normal;
-  animation-fill-mode: forwards;
-}
-
-@keyframes rotate-once {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>
