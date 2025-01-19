@@ -5,7 +5,7 @@ WORKDIR /my-nuxt-app
 
 COPY package*.json ./
 
-RUN npm install --optional=false
+RUN npm i
 
 COPY . .
 
