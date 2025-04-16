@@ -24,12 +24,12 @@ jobs:
       -
         name: Docker Metadata action
         id: meta
-        uses: docker/metadata-action@v5.5.1
+        uses: docker/metadata-action@v5.7.0
         with:
           images: parsajr/fourequalsten
       - 
         name: Build and push Docker image
-        uses: docker/build-push-action@v6.7.0
+        uses: docker/build-push-action@v6.15.0
         with:
           context: .
           push: true
