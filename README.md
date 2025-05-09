@@ -11,10 +11,10 @@ A game similar to fairly known [4=10](https://play.google.com/store/apps/details
 - [And ...](https://github.com/ParsaJR/fourequalsten/blob/master/package-lock.json)
 # Features
 
-- [X] Core game logic using Drag & Drop Mode (Unstable)
+- [X] Core game logic using Drag & Drop Mode (It's wicked. it was so much trickier to implement than i expected to be)
 - [X] Game Levels
 - [X] Google OAuth
-- [X] Saving game progress
+- [X] Save the game progress
 - [ ] Tap Mode
 - [ ] Support Parentheses
 - [ ] Github OAuth
