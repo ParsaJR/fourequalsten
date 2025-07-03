@@ -1,6 +1,6 @@
 import { User } from "~/server/models/User";
 
-export default oauthGoogleEventHandler({
+export default defineOAuthGoogleEventHandler({
   config: {
     authorizationParams: {
       access_type: "online",
