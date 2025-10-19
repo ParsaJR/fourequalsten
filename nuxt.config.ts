@@ -12,6 +12,11 @@ export default defineNuxtConfig({
       ],
     },
   },
+  vite: {
+    esbuild: {
+      drop: ['console']
+    }
+  },
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   modules: ["@nuxt/ui", "@nuxt/fonts", "nuxt-auth-utils"],
