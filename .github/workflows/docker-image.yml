@@ -18,12 +18,12 @@ jobs:
 
      - name: Docker Metadata action
        id: meta
-       uses: docker/metadata-action@v5.7.0
+       uses: docker/metadata-action@v5.10.0
        with:
           images: parsajr/fourequalsten
 
      - name: Build Docker image
-       uses: docker/build-push-action@v6.18.0
+       uses: docker/build-push-action@v6.19.2
        with:
           context: .
           push: false
@@ -42,7 +42,7 @@ jobs:
 
       - name: Docker Metadata action
         id: meta
-        uses: docker/metadata-action@v5.7.0
+        uses: docker/metadata-action@v5.10.0
         with:
           images: parsajr/fourequalsten
 
@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v6.19.2
         with:
           context: .
           push: true
