@@ -15,7 +15,7 @@
     "@nuxt/ui": "^2.22.0",
     "@pinia/nuxt": "^0.11.1",
     "bigeval": "^3.2.3",
-    "mongoose": "^8.16.1",
+    "mongoose": "^9.6.3",
     "nuxt": "^3.17.6",
     "nuxt-auth-utils": "^0.5.20",
     "vue": "latest",
