@@ -1,9 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>nuxt/renovate-config-nuxt"
-  ],
-  "lockFileMaintenance": {
-    "enabled": true
-  }
+
+  "extends": ["config:recommended", ":maintainLockFilesWeekly"],
+
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 3,
+
+  "packageRules": [
+    {
+      "matchPackageNames": ["nuxt", "@nuxt/content", "vue", "mongoose"],
+      "groupName": "nuxt ecosystem"
+    },
+    {
+      "matchManagers": ["pnpm"],
+      "enabled": true
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    }
+  ]
 }
