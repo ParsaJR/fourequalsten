@@ -26,6 +26,6 @@
     "@iconify-json/logos": "^1.2.4"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.44.1"
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
   }
 }
